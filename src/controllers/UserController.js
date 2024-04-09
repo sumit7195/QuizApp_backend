@@ -1,5 +1,9 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import "dotenv/config.js"
+import { Quiz } from "../models/qustionModel.js";
+
 
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -43,7 +47,7 @@ const loginUser = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id }, secret, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.json({ token });
   } catch (err) {
     console.error(err);
